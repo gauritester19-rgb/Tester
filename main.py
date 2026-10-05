@@ -100,9 +100,13 @@ def update_student(student_id: int, student: Student):
 def delete_student(student_id: int):
 
   
+    for student in students:
+        if student["id"] == student_id:
+            students.remove(student)
             return {
                 "message": "Student deleted successfully",
                 "student": student
+            }
             }
 
     return {
