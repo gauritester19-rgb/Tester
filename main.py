@@ -63,12 +63,7 @@ def get_student(student_id: int):
 @app.post("/students")
 def create_student(student: Student):
 
-    new_student = {
-        "id": len(students) + 1,
-        "name": student.name,
-        "age": student.age,
-        "course": student.course
-    }
+   
 
     students.append(new_student)
 
