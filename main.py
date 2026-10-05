@@ -4,14 +4,20 @@ from pydantic import BaseModel, Field
 app = FastAPI()
 
 
+# =========================
 # STUDENT DATA MODEL
+# =========================
+
 class Student(BaseModel):
     name: str = Field(min_length=2)
     age: int = Field(gt=0, le=100)
     course: str = Field(min_length=2)
 
 
+# =========================
 # STUDENTS LIST
+# =========================
+
 students = [
     {
         "id": 1,
@@ -27,7 +33,11 @@ students = [
     }
 ]
 
+
+# =========================
 # HOME API
+# =========================
+
 @app.get("/")
 def home():
     return {
@@ -35,19 +45,25 @@ def home():
     }
 
 
+# =========================
 # GET ALL STUDENTS
+# =========================
+
 @app.get("/students")
 def get_students():
     return {
         "students": students
     }
 
+
+# =========================
 # GET STUDENT BY ID
+# =========================
+
 @app.get("/students/{student_id}")
 def get_student(student_id: int):
 
     for student in students:
-
         if student["id"] == student_id:
             return {
                 "student": student
@@ -58,14 +74,17 @@ def get_student(student_id: int):
         detail="Student not found"
     )
 
+
+# =========================
 # SEARCH STUDENT BY NAME
+# =========================
+
 @app.get("/students/search")
 def search_student(name: str):
 
     results = []
 
     for student in students:
-
         if name.lower() in student["name"].lower():
             results.append(student)
 
@@ -74,14 +93,16 @@ def search_student(name: str):
     }
 
 
+# =========================
 # FILTER STUDENTS BY COURSE
+# =========================
+
 @app.get("/students/course/{course_name}")
 def get_students_by_course(course_name: str):
 
     results = []
 
     for student in students:
-
         if student["course"].lower() == course_name.lower():
             results.append(student)
 
@@ -90,7 +111,11 @@ def get_students_by_course(course_name: str):
         "students": results
     }
 
+
+# =========================
 # STUDENT COUNT
+# =========================
+
 @app.get("/students/count")
 def get_student_count():
 
@@ -98,11 +123,14 @@ def get_student_count():
         "total_students": len(students)
     }
 
+
+# =========================
 # CREATE STUDENT
+# =========================
+
 @app.post("/students")
 def create_student(student: Student):
 
-    # Generate unique ID
     new_id = max(
         [student["id"] for student in students],
         default=0
@@ -122,7 +150,11 @@ def create_student(student: Student):
         "student": new_student
     }
 
+
+# =========================
 # UPDATE STUDENT
+# =========================
+
 @app.put("/students/{student_id}")
 def update_student(
     student_id: int,
@@ -148,7 +180,10 @@ def update_student(
     )
 
 
+# =========================
 # DELETE STUDENT
+# =========================
+
 @app.delete("/students/{student_id}")
 def delete_student(student_id: int):
 
