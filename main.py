@@ -104,12 +104,7 @@ def update_student(student_id: int, student: Student):
 @app.delete("/students/{student_id}")
 def delete_student(student_id: int):
 
-    for student in students:
-
-        if student["id"] == student_id:
-
-            students.remove(student)
-
+  
             return {
                 "message": "Student deleted successfully",
                 "student": student
